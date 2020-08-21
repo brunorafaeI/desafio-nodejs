@@ -1,7 +1,19 @@
 version: 2.1
-orbs:
-  node: circleci/node@3.0.0
+jobs:
+  build:
+    docker:
+      - image: circleci/node:12.18.3
+    steps:
+      - checkout
+      - run: echo "Trying to install all dependences"
+      - run: yarn
+  test:
+    steps:
+      - checkout
+      - run: echo "Trying to pass the tests"
+      - run: yarn test
 workflows:
   node-tests:
     jobs:
-      - node/test
+      - build
+      - test
