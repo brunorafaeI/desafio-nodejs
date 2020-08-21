@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const { uuid, isUuid } = require("uuidv4");
 
-// const { v4: uuid } = require('uuid');
+// const { v4: uuid, validate: isUuid } = require('uuid');
 
 const app = express();
 
@@ -43,7 +43,7 @@ app.put("/repositories/:id", (request, response) => {
   const repoIndex = repositories.findIndex((repo) => repo.id === id);
 
   if (repoIndex < 0) {
-    return response.status(400).json({ message: "Repository not found." });
+    return response.status(404).json({ message: "Repository not found." });
   }
 
   const repository = {
@@ -64,7 +64,7 @@ app.delete("/repositories/:id", (request, response) => {
   const repoIndex = repositories.findIndex((repo) => repo.id === id);
 
   if (repoIndex < 0) {
-    return response.status(400).json({ message: "Repository not found." });
+    return response.status(404).json({ message: "Repository not found." });
   }
 
   repositories.splice(repoIndex, 1);
@@ -78,7 +78,7 @@ app.post("/repositories/:id/like", (request, response) => {
   const repository = repositories.find((repo) => repo.id === id);
 
   if (!repository) {
-    return response.status(400).json({ message: "Repository not found." });
+    return response.status(404).json({ message: "Repository not found." });
   }
 
   repository.likes += 1;
